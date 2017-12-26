@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="938.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mai.guiforxmlsearcher.MainFXMLController">
+   <children>
+      <Button fx:id="choiceWorkPathButton" layoutX="32.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleChoiceWorkPathAction" prefHeight="44.0" prefWidth="216.0" text="Выбрать рабочую директорию" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="690.0" AnchorPane.topAnchor="29.0">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <Label fx:id="workPathName" layoutX="32.0" layoutY="89.0" prefHeight="31.0" prefWidth="346.0" text="Path:" />
+      <Label layoutX="516.0" layoutY="36.0" prefHeight="31.0" prefWidth="81.0" text="Операция:" />
+      <Button layoutX="407.0" layoutY="315.0" mnemonicParsing="false" onAction="#testBut" text="Выполнить" AnchorPane.bottomAnchor="256.0" AnchorPane.leftAnchor="407.0" AnchorPane.rightAnchor="435.0" />
+      <ProgressBar fx:id="progressBar" layoutX="54.0" layoutY="542.0" prefHeight="31.0" prefWidth="831.0" progress="0.0" />
+      <ComboBox fx:id="operationComboBox" layoutX="616.0" layoutY="36.0" prefWidth="150.0" AnchorPane.leftAnchor="616.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="36.0" />
+      <TextArea fx:id="logTextArea" layoutX="51.0" layoutY="364.0" prefHeight="139.0" prefWidth="831.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="56.0" />
+      <ListView fx:id="valuesListView" layoutX="575.0" layoutY="120.0" prefHeight="166.0" prefWidth="325.0" AnchorPane.bottomAnchor="316.0" AnchorPane.leftAnchor="575.0" AnchorPane.rightAnchor="38.0" />
+      <ComboBox fx:id="atributeComboBox" layoutX="407.0" layoutY="120.0" prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="407.0" AnchorPane.rightAnchor="381.0" AnchorPane.topAnchor="120.0" />
+   </children>
+</AnchorPane>
