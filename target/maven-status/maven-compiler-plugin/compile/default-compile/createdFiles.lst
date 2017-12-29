@@ -2,6 +2,7 @@ com\mai\guiforxmlsearcher\utils\FindTask.class
 com\mai\guiforxmlsearcher\text_area_appender\TextAreaAppender$1.class
 com\mai\guiforxmlsearcher\text_area_appender\TextAreaAppender.class
 com\mai\guiforxmlsearcher\utils\XMLUtils$1.class
+com\mai\guiforxmlsearcher\operations_type_scene\SerachByTagBahavior$1.class
 com\mai\guiforxmlsearcher\MainFXMLController$1.class
 com\mai\guiforxmlsearcher\MainFXMLController.class
 com\mai\guiforxmlsearcher\MainApp.class

@@ -57,7 +57,7 @@ public class FindTask extends Task<Map<String, Set<String>>> {
 
                 for (int i = 0; i < atributes.getLength(); i++) {
                     Node atribute = atributes.item(i);
-                    if (atribute.getNodeType() != Node.TEXT_NODE || TEXT_ATR.equals(atribute.getNodeName())) {
+                    if (atribute.getNodeType() != Node.TEXT_NODE && !TEXT_ATR.equals(atribute.getNodeName())) {
                         String value = atribute.getTextContent();
                         if (value == null || value.isEmpty()) {// пропустим пустые теги
                             continue;

@@ -7,6 +7,8 @@ package com.mai.guiforxmlsearcher.operations_type_scene;
 
 import java.util.Map;
 import java.util.Set;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
@@ -22,6 +24,7 @@ public class SerachByTagBahavior {
     public SerachByTagBahavior(ListView valuesListView, ComboBox atributeComboBox) {
         this.valuesListView = valuesListView;
         this.atributeComboBox = atributeComboBox;
+        initListener();
     }
 
     Map<String, Set<String>> atrMap;
@@ -34,12 +37,18 @@ public class SerachByTagBahavior {
         if (atrMap == null || atrMap.isEmpty()) {
             return;
         }
+        this.atrMap = atrMap;
         fillatributeComboBox();
         fillvaluesListView();
     }
 
     private void fillatributeComboBox() {
-        valuesListView.getItems().addAll(atrMap.keySet());
+        Set<String> keys = atrMap.keySet();
+        if (keys != null) {
+            atributeComboBox.getItems().addAll(atrMap.keySet());
+            atributeComboBox.setValue(keys.iterator().next());
+        }
+
     }
 
     private void fillvaluesListView() {
@@ -51,7 +60,17 @@ public class SerachByTagBahavior {
     }
 
     private void initListener() {
-
+        atributeComboBox.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (atributeComboBox.getValue() == null) {
+                    return;
+                }
+                Set<String> values = atrMap.get((String) atributeComboBox.getValue());
+                if (values != null) {
+                    valuesListView.getItems().addAll(values);
+                }
+            }
+        });
     }
-
 }
