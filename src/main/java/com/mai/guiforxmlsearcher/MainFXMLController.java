@@ -6,14 +6,13 @@
 package com.mai.guiforxmlsearcher;
 
 import com.mai.guiforxmlsearcher.operations_type_scene.SerachByTagBahavior;
+import com.mai.guiforxmlsearcher.operations_type_scene.ValueOfListView;
 import com.mai.guiforxmlsearcher.utils.OperationsType;
 import com.mai.guiforxmlsearcher.text_area_appender.TextAreaAppender;
 import com.mai.guiforxmlsearcher.utils.XMLUtils;
 import java.io.File;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -41,6 +40,8 @@ public class MainFXMLController implements Initializable {
     private ComboBox<OperationsType> operationComboBox;
     @FXML
     private Label workPathName;
+    @FXML
+    private Label savePathName;
     @FXML
     private Button choiceWorkPathButton;
     @FXML
@@ -78,12 +79,22 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private void handleChoiceSavePathAction(ActionEvent event) {
-
+        DirectoryChooser fileChooser = new DirectoryChooser();
+        saveDirectory = fileChooser.showDialog(((Node) event.getTarget()).getScene().getWindow());
+        if (saveDirectory == null) {
+            savePathName.setText("No Directory selected");
+        } else {
+            savePathName.setText(workDirectory.getAbsolutePath());
+        }
+        if (workDirectory == null) {
+            logger.info("Укажите рабочую дирректорию!");
+            return;
+        }
     }
 
     @FXML
     private void startOperation(ActionEvent event) {
-
+        logicStartButton();
     }
 
     @Override
@@ -118,10 +129,12 @@ public class MainFXMLController implements Initializable {
                 logger.info("Укажите дирректорию для сохранения!");
                 return;
             }
-            if (valuesListView.getSelectionModel().getSelectedItem() != null) {
+            ValueOfListView valueOfListView = (ValueOfListView) valuesListView.getSelectionModel().getSelectedItem();
+            if (valueOfListView == null) {
                 logger.info("Выберете в списке значений атрибута необходимое!");
                 return;
             }
+            XMLUtils.copyFiles(valueOfListView.getFiles(), saveDirectory.getAbsolutePath(), progressBar);
         }
     }
 

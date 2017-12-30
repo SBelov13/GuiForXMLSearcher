@@ -5,10 +5,12 @@
  */
 package com.mai.guiforxmlsearcher.operations_type_scene;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,21 +24,21 @@ import javafx.scene.control.ListView;
 public class SerachByTagBahavior {
 
     private final ListView valuesListView;
-    private final ComboBox atributeComboBox;
+    private final ComboBox tagComboBox;
 
     public SerachByTagBahavior(ListView valuesListView, ComboBox atributeComboBox) {
         this.valuesListView = valuesListView;
-        this.atributeComboBox = atributeComboBox;
+        this.tagComboBox = atributeComboBox;
         initListener();
     }
 
-    Map<String, Set<String>> atrMap;
+    Map<String, Map<String, List<File>>> atrMap;
 
-    public Map<String, Set<String>> getAtrMap() {
+    public Map<String, Map<String, List<File>>> getAtrMap() {
         return atrMap;
     }
 
-    public void refrashElement(Map<String, Set<String>> atrMap) {
+    public void refrashElement(Map<String, Map<String, List<File>>> atrMap) {
         if (atrMap == null || atrMap.isEmpty()) {
             return;
         }
@@ -46,25 +48,32 @@ public class SerachByTagBahavior {
     }
 
     private void fillatributeComboBox() {
-        atributeComboBox.getItems().clear();
+        tagComboBox.getItems().clear();
         Set<String> keys = atrMap.keySet();
         if (keys != null) {
-            atributeComboBox.getItems().addAll(sortSet(atrMap.keySet()));
-            atributeComboBox.setValue(keys.iterator().next());
+            List<String> k = new ArrayList<>(keys);
+            Collections.sort(k);
+            tagComboBox.getItems().addAll(k);
+            tagComboBox.setValue(keys.iterator().next());
         }
     }
 
     private void fillvaluesListView() {
         valuesListView.getItems().clear();
-        String atr = (String) atributeComboBox.getValue();
-        Set<String> values = atrMap.get(atr);
-        if (values != null) {
-            valuesListView.getItems().addAll(sortSet(values));
+        String atr = (String) tagComboBox.getValue();
+        if (atr == null) {
+            return;
         }
+        List<ValueOfListView> listViews = new ArrayList<>();
+        for (Entry<String, List<File>> entry : atrMap.get(atr).entrySet()) {
+            listViews.add(new ValueOfListView(entry.getKey(), entry.getValue()));
+        }
+        Collections.sort(listViews);
+        valuesListView.getItems().addAll(listViews);
     }
 
     private void initListener() {
-        atributeComboBox.valueProperty().addListener(new ChangeListener() {
+        tagComboBox.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 fillvaluesListView();
@@ -72,14 +81,8 @@ public class SerachByTagBahavior {
         });
     }
 
-    private List<String> sortSet(Set<String> values) {
-        List<String> list = new ArrayList<>(values);
-        Collections.sort(list);
-        return list;
-    }
-
     public void setVisible(boolean value) {
-        atributeComboBox.setVisible(value);
+        tagComboBox.setVisible(value);
         valuesListView.setVisible(value);
     }
 }

@@ -26,11 +26,11 @@
       <Button fx:id="startButton" layoutX="38.0" layoutY="339.0" mnemonicParsing="false" onAction="#startOperation" prefHeight="31.0" prefWidth="150.0" snapToPixel="false" text="Выполнить" />
       <Label layoutX="372.0" layoutY="80.0" prefHeight="31.0" prefWidth="119.0" text="Доступные теги:" />
       <Label layoutX="604.0" layoutY="80.0" prefHeight="31.0" prefWidth="293.0" text="Доступные значения выбранного тега:" />
-      <Button fx:id="choiceWorkPathButton1" layoutX="301.0" layoutY="173.0" mnemonicParsing="false" onAction="#handleChoiceSavePathAction" prefHeight="58.0" prefWidth="270.0" text="Выбрать директорию для копирования">
+      <Button fx:id="choiceSavePathButton" layoutX="301.0" layoutY="173.0" mnemonicParsing="false" onAction="#handleChoiceSavePathAction" prefHeight="58.0" prefWidth="270.0" text="Выбрать директорию для копирования">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Label fx:id="workPathName1" layoutX="280.0" layoutY="260.0" prefHeight="31.0" prefWidth="293.0" text="SavePath:" />
+      <Label fx:id="savePathName" layoutX="280.0" layoutY="260.0" prefHeight="31.0" prefWidth="293.0" text="SavePath:" />
    </children>
 </AnchorPane>

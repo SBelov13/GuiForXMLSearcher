@@ -54,4 +54,25 @@ public class XMLUtils {
         new Thread(findTask).start();
     }
 
+    public static void copyFiles(List<File> files, String saveDirectory, final ProgressBar progressBar) {
+        final CopyTask copyTask = new CopyTask(files, saveDirectory);
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(copyTask.progressProperty());
+
+        copyTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                if (copyTask.getValue()) {
+                    logger.info("Копирование завершено успешно");
+                } else {
+                    logger.info("При копировании произошла ошибка");
+                }
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+            }
+        });
+        new Thread(copyTask).start();
+    }
+
 }

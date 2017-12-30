@@ -5,10 +5,11 @@
  */
 package com.mai.guiforxmlsearcher.utils;
 
-import com.mai.guiforxmlsearcher.MainFXMLController;
+import com.mai.guiforxmlsearcher.operations_type_scene.ValueOfListView;
 import static com.mai.guiforxmlsearcher.utils.XMLUtils.TEXT_ATR;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.xml.sax.SAXException;
  *
  * @author Sergey
  */
-public class FindTask extends Task<Map<String, Set<String>>> {
+public class FindTask extends Task<Map<String, Map<String, List<File>>>> {
 
     final static Logger logger = Logger.getLogger(FindTask.class);
     List<File> files;
@@ -38,8 +39,8 @@ public class FindTask extends Task<Map<String, Set<String>>> {
     }
 
     @Override
-    protected Map<String, Set<String>> call() throws Exception {
-        Map<String, Set<String>> resultMap = new HashMap<>();
+    protected Map<String, Map<String, List<File>>> call() throws Exception {
+        Map<String, Map<String, List<File>>> resultMap = new HashMap<>();
         if (files.isEmpty()) {
             return resultMap;
         }
@@ -63,17 +64,25 @@ public class FindTask extends Task<Map<String, Set<String>>> {
                             continue;
                         }
                         String atrName = atribute.getNodeName();
-                        Set<String> values = resultMap.get(atrName);
+                        Map<String, List<File>> values = resultMap.get(atrName);
                         if (values == null) {
-                            values = new HashSet<>();
-                            values.add(value);
+                            values = new HashMap<>();
+                            List<File> list = new ArrayList<>();
+                            list.add(file);
+                            values.put(value, list);
                             resultMap.put(atrName, values);
                         } else {
-                            values.add(value);
+                            List<File> list = values.get(value);
+                            if (list == null) {
+                                list = new ArrayList<>();
+                                list.add(file);
+                                values.put(value, list);
+                            } else {
+                                list.add(file);
+                            }
                         }
                     }
                 }
-//                logger.info(count);
                 count++;
                 this.updateProgress(count, maxCount);
 
