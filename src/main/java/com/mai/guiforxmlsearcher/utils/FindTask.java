@@ -5,16 +5,13 @@
  */
 package com.mai.guiforxmlsearcher.utils;
 
-import com.mai.guiforxmlsearcher.operations_type_scene.ValueOfListView;
 import static com.mai.guiforxmlsearcher.utils.XMLUtils.TEXT_ATR;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javafx.concurrent.Task;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

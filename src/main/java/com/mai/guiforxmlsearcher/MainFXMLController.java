@@ -12,6 +12,8 @@ import com.mai.guiforxmlsearcher.text_area_appender.TextAreaAppender;
 import com.mai.guiforxmlsearcher.utils.XMLUtils;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -72,7 +74,7 @@ public class MainFXMLController implements Initializable {
             logger.info("Укажите рабочую дирректорию!");
             return;
         }
-        XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior);
+        XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior, startButton);
 //        logger.info("Найдено " + atrMap.size() + " различных атрибутов");
 //        serachByTagBahavior.refrashElement(atrMap);
     }
@@ -84,9 +86,9 @@ public class MainFXMLController implements Initializable {
         if (saveDirectory == null) {
             savePathName.setText("No Directory selected");
         } else {
-            savePathName.setText(workDirectory.getAbsolutePath());
+            savePathName.setText(saveDirectory.getAbsolutePath());
         }
-        if (workDirectory == null) {
+        if (saveDirectory == null) {
             logger.info("Укажите рабочую дирректорию!");
             return;
         }
@@ -112,15 +114,15 @@ public class MainFXMLController implements Initializable {
     }
 
     private void initListeners() {
-        operationComboBox.valueProperty().addListener(new ChangeListener<OperationsType>() {
-            @Override
-            public void changed(ObservableValue<? extends OperationsType> observable, OperationsType oldValue, OperationsType newValue) {
-                if (workDirectory == null) {
-                    logger.info("Укажите рабочую дирректорию!");
-                }
-                XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior);
-            }
-        });
+//        operationComboBox.valueProperty().addListener(new ChangeListener<OperationsType>() {
+//            @Override
+//            public void changed(ObservableValue<? extends OperationsType> observable, OperationsType oldValue, OperationsType newValue) {
+//                if (workDirectory == null) {
+//                    logger.info("Укажите рабочую дирректорию!");
+//                }
+//                XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior, startButton);
+//            }
+//        });
     }
 
     private void logicStartButton() {
@@ -134,8 +136,22 @@ public class MainFXMLController implements Initializable {
                 logger.info("Выберете в списке значений атрибута необходимое!");
                 return;
             }
-            XMLUtils.copyFiles(valueOfListView.getFiles(), saveDirectory.getAbsolutePath(), progressBar);
+            startButton.setDisable(true);
+            XMLUtils.copyFiles(valueOfListView.getFiles(), saveDirectory.getAbsolutePath(), progressBar, startButton);
         }
+        if (operationComboBox.getValue() == OperationsType.DECOMPOSE_BY_FOLDER_IN_TXT) {
+            if (saveDirectory == null) {
+                logger.info("Укажите дирректорию для сохранения!");
+                return;
+            }
+            Map<String, List<File>> map = serachByTagBahavior.getAtrMap().get((String) atributeComboBox.getValue());
+            if (map == null) {
+                logger.info("Выберете тег!");
+                return;
+            }
+            XMLUtils.createTXTFromXMl(map, saveDirectory.getAbsolutePath(), progressBar, startButton);
+        }
+
     }
 
 }

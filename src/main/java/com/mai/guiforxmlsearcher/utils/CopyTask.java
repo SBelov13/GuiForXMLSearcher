@@ -46,6 +46,7 @@ public class CopyTask extends Task<Boolean> {
             logger.info(ex.getStackTrace());
             return false;
         }
+        logger.info("Скопированно " + maxCount + "файлов");
         return true;
     }
 

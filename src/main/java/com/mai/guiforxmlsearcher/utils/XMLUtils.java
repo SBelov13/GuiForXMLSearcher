@@ -9,8 +9,10 @@ import com.mai.guiforxmlsearcher.operations_type_scene.SerachByTagBahavior;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import org.apache.log4j.Logger;
 
@@ -33,7 +35,7 @@ public class XMLUtils {
         return files;
     }
 
-    public static void getAllAtributeAndValues(File workDirectory, final ProgressBar progressBar, final SerachByTagBahavior bahavior) {
+    public static void getAllAtributeAndValues(File workDirectory, final ProgressBar progressBar, final SerachByTagBahavior bahavior, final Button startButton) {
         List<File> files = getListXMLFiles(workDirectory);
         logger.info("Найдено " + files.size() + " файлов");
         final FindTask findTask = new FindTask(files);
@@ -48,13 +50,14 @@ public class XMLUtils {
                 logger.info("Cканирование завершено");
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                startButton.setDisable(false);
             }
         });
         logger.info("Начался процесс сканирования");
         new Thread(findTask).start();
     }
 
-    public static void copyFiles(List<File> files, String saveDirectory, final ProgressBar progressBar) {
+    public static void copyFiles(List<File> files, String saveDirectory, final ProgressBar progressBar, final Button startButton) {
         final CopyTask copyTask = new CopyTask(files, saveDirectory);
         progressBar.progressProperty().unbind();
         progressBar.progressProperty().bind(copyTask.progressProperty());
@@ -70,9 +73,33 @@ public class XMLUtils {
                 }
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                startButton.setDisable(false);
             }
         });
         new Thread(copyTask).start();
+    }
+
+    public static void createTXTFromXMl(Map<String, List<File>> map, String saveDirectory, final ProgressBar progressBar, final Button startButton) {
+        final DecomposeConvertTask decomposeConvertTask = new DecomposeConvertTask(map, saveDirectory);
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(decomposeConvertTask.progressProperty());
+
+        decomposeConvertTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                if (decomposeConvertTask.getValue()) {
+                    logger.info("Конвертация завершена успешно");
+                } else {
+                    logger.info("При конвертации произошла ошибка");
+                }
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+                startButton.setDisable(false);
+            }
+        });
+        new Thread(decomposeConvertTask).start();
+
     }
 
 }

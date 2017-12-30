@@ -10,7 +10,8 @@ package com.mai.guiforxmlsearcher.utils;
  * @author Sergey
  */
 public enum OperationsType {
-    SEARCH_BY_TAG("Поиск и копирование по тегу"),;
+    SEARCH_BY_TAG("Поиск и копирование по тегу"),
+    DECOMPOSE_BY_FOLDER_IN_TXT("Преобразовать в txt и разложить в папки выбранного тега"),;
 
     private final String name;
 

@@ -3,12 +3,13 @@ com\mai\guiforxmlsearcher\text_area_appender\TextAreaAppender$1.class
 com\mai\guiforxmlsearcher\utils\XMLUtils$2.class
 com\mai\guiforxmlsearcher\text_area_appender\TextAreaAppender.class
 com\mai\guiforxmlsearcher\utils\XMLUtils$1.class
+com\mai\guiforxmlsearcher\utils\DecomposeConvertTask.class
 com\mai\guiforxmlsearcher\operations_type_scene\SerachByTagBahavior$1.class
-com\mai\guiforxmlsearcher\MainFXMLController$1.class
 com\mai\guiforxmlsearcher\MainFXMLController.class
 com\mai\guiforxmlsearcher\MainApp.class
 com\mai\guiforxmlsearcher\operations_type_scene\SerachByTagBahavior.class
 com\mai\guiforxmlsearcher\utils\OperationsType.class
+com\mai\guiforxmlsearcher\utils\XMLUtils$3.class
 com\mai\guiforxmlsearcher\utils\XMLUtils.class
 com\mai\guiforxmlsearcher\operations_type_scene\ValueOfListView.class
 com\mai\guiforxmlsearcher\utils\CopyTask.class
