@@ -11,7 +11,9 @@ import com.mai.guiforxmlsearcher.text_area_appender.TextAreaAppender;
 import com.mai.guiforxmlsearcher.utils.XMLUtils;
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -49,9 +51,12 @@ public class MainFXMLController implements Initializable {
     private ComboBox atributeComboBox;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private Button startButton;
 
-    SerachByTagBahavior serachByTagBahavior;
-    File workDirectory;
+    private SerachByTagBahavior serachByTagBahavior;
+    private File workDirectory;
+    private File saveDirectory;
 
     @FXML
     private void handleChoiceWorkPathAction(ActionEvent event) {
@@ -62,9 +67,9 @@ public class MainFXMLController implements Initializable {
         } else {
             workPathName.setText(workDirectory.getAbsolutePath());
         }
-        ////////////
         if (workDirectory == null) {
             logger.info("Укажите рабочую дирректорию!");
+            return;
         }
         XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior);
 //        logger.info("Найдено " + atrMap.size() + " различных атрибутов");
@@ -72,8 +77,13 @@ public class MainFXMLController implements Initializable {
     }
 
     @FXML
-    private void testBut() {
-        XMLUtils.testXML(workDirectory);
+    private void handleChoiceSavePathAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void startOperation(ActionEvent event) {
+
     }
 
     @Override
@@ -94,9 +104,25 @@ public class MainFXMLController implements Initializable {
         operationComboBox.valueProperty().addListener(new ChangeListener<OperationsType>() {
             @Override
             public void changed(ObservableValue<? extends OperationsType> observable, OperationsType oldValue, OperationsType newValue) {
-
+                if (workDirectory == null) {
+                    logger.info("Укажите рабочую дирректорию!");
+                }
+                XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior);
             }
         });
+    }
+
+    private void logicStartButton() {
+        if (operationComboBox.getValue() == OperationsType.SEARCH_BY_TAG) {
+            if (saveDirectory == null) {
+                logger.info("Укажите дирректорию для сохранения!");
+                return;
+            }
+            if (valuesListView.getSelectionModel().getSelectedItem() != null) {
+                logger.info("Выберете в списке значений атрибута необходимое!");
+                return;
+            }
+        }
     }
 
 }

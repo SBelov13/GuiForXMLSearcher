@@ -73,7 +73,7 @@ public class FindTask extends Task<Map<String, Set<String>>> {
                         }
                     }
                 }
-                logger.info(count);
+//                logger.info(count);
                 count++;
                 this.updateProgress(count, maxCount);
 

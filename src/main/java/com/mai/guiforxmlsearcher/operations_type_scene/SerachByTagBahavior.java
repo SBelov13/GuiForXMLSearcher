@@ -5,6 +5,9 @@
  */
 package com.mai.guiforxmlsearcher.operations_type_scene;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javafx.beans.value.ChangeListener;
@@ -43,19 +46,20 @@ public class SerachByTagBahavior {
     }
 
     private void fillatributeComboBox() {
+        atributeComboBox.getItems().clear();
         Set<String> keys = atrMap.keySet();
         if (keys != null) {
-            atributeComboBox.getItems().addAll(atrMap.keySet());
+            atributeComboBox.getItems().addAll(sortSet(atrMap.keySet()));
             atributeComboBox.setValue(keys.iterator().next());
         }
-
     }
 
     private void fillvaluesListView() {
+        valuesListView.getItems().clear();
         String atr = (String) atributeComboBox.getValue();
         Set<String> values = atrMap.get(atr);
         if (values != null) {
-            valuesListView.getItems().addAll(values);
+            valuesListView.getItems().addAll(sortSet(values));
         }
     }
 
@@ -63,14 +67,19 @@ public class SerachByTagBahavior {
         atributeComboBox.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (atributeComboBox.getValue() == null) {
-                    return;
-                }
-                Set<String> values = atrMap.get((String) atributeComboBox.getValue());
-                if (values != null) {
-                    valuesListView.getItems().addAll(values);
-                }
+                fillvaluesListView();
             }
         });
+    }
+
+    private List<String> sortSet(Set<String> values) {
+        List<String> list = new ArrayList<>(values);
+        Collections.sort(list);
+        return list;
+    }
+
+    public void setVisible(boolean value) {
+        atributeComboBox.setVisible(value);
+        valuesListView.setVisible(value);
     }
 }

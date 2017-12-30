@@ -10,7 +10,7 @@ package com.mai.guiforxmlsearcher.utils;
  * @author Sergey
  */
 public enum OperationsType {
-    SEARCH_BY_TAG("Поиск по тегу"),;
+    SEARCH_BY_TAG("Поиск и копирование по тегу"),;
 
     private final String name;
 
