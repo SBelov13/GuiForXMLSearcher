@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mai.guiforxmlsearcher.utils;
+package com.mai.guiforxmlsearcher.utils.operations;
 
 /**
  *
@@ -11,7 +11,8 @@ package com.mai.guiforxmlsearcher.utils;
  */
 public enum OperationsType {
     SEARCH_BY_TAG("Поиск и копирование по тегу"),
-    DECOMPOSE_BY_FOLDER_IN_TXT("Преобразовать в txt и разложить в папки выбранного тега"),;
+    DECOMPOSE_BY_FOLDER_IN_TXT("Преобразовать в txt и разложить в папки выбранного тега"),
+    DECOMPOSE_ALL_IN_TXT("Преобразовать в txt все данные в выбранной папке XML"),;
 
     private final String name;
 

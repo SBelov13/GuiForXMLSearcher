@@ -5,7 +5,11 @@
  */
 package com.mai.guiforxmlsearcher.utils;
 
-import com.mai.guiforxmlsearcher.operations_type_scene.SerachByTagBahavior;
+import com.mai.guiforxmlsearcher.utils.task.DecomposeConvertTask;
+import com.mai.guiforxmlsearcher.utils.task.CopyTask;
+import com.mai.guiforxmlsearcher.utils.task.FindTask;
+import com.mai.guiforxmlsearcher.operations_type_scene.SearchByTagBahavior;
+import com.mai.guiforxmlsearcher.utils.task.WriteTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,7 @@ import org.apache.log4j.Logger;
  */
 public class XMLUtils {
 
-    final static String TEXT_ATR = "text";
+    public final static String TEXT_ATR = "text";
     final static Logger logger = Logger.getLogger(XMLUtils.class);
 
     private static List<File> getListXMLFiles(File workDirectory) {
@@ -35,7 +39,7 @@ public class XMLUtils {
         return files;
     }
 
-    public static void getAllAtributeAndValues(File workDirectory, final ProgressBar progressBar, final SerachByTagBahavior bahavior, final Button startButton) {
+    public static void getAllAtributeAndValues(File workDirectory, final ProgressBar progressBar, final SearchByTagBahavior bahavior, final Button startButton) {
         List<File> files = getListXMLFiles(workDirectory);
         logger.info("Найдено " + files.size() + " файлов");
         final FindTask findTask = new FindTask(files);
@@ -99,6 +103,30 @@ public class XMLUtils {
             }
         });
         new Thread(decomposeConvertTask).start();
+
+    }
+
+    public static void createOneTXTFromAllXMl(File workDirectory, String saveDirectory, final ProgressBar progressBar, final Button startButton) {
+        List<File> files = getListXMLFiles(workDirectory);
+        final WriteTask writeTask = new WriteTask(files, saveDirectory);
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(writeTask.progressProperty());
+
+        writeTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+                new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                if (writeTask.getValue()) {
+                    logger.info("Запись в txt завершена успешно");
+                } else {
+                    logger.info("При записи в txt произошла ошибка");
+                }
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+                startButton.setDisable(false);
+            }
+        });
+        new Thread(writeTask).start();
 
     }
 

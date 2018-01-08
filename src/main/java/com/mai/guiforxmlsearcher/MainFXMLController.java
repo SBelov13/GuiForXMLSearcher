@@ -5,9 +5,9 @@
  */
 package com.mai.guiforxmlsearcher;
 
-import com.mai.guiforxmlsearcher.operations_type_scene.SerachByTagBahavior;
+import com.mai.guiforxmlsearcher.operations_type_scene.SearchByTagBahavior;
 import com.mai.guiforxmlsearcher.operations_type_scene.ValueOfListView;
-import com.mai.guiforxmlsearcher.utils.OperationsType;
+import com.mai.guiforxmlsearcher.utils.operations.OperationsType;
 import com.mai.guiforxmlsearcher.text_area_appender.TextAreaAppender;
 import com.mai.guiforxmlsearcher.utils.XMLUtils;
 import java.io.File;
@@ -57,7 +57,7 @@ public class MainFXMLController implements Initializable {
     @FXML
     private Button startButton;
 
-    private SerachByTagBahavior serachByTagBahavior;
+    private SearchByTagBahavior serachByTagBahavior;
     private File workDirectory;
     private File saveDirectory;
 
@@ -75,8 +75,6 @@ public class MainFXMLController implements Initializable {
             return;
         }
         XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior, startButton);
-//        logger.info("Найдено " + atrMap.size() + " различных атрибутов");
-//        serachByTagBahavior.refrashElement(atrMap);
     }
 
     @FXML
@@ -110,19 +108,21 @@ public class MainFXMLController implements Initializable {
         operationComboBox.setValue(OperationsType.SEARCH_BY_TAG);
         TextAreaAppender.setTextArea(logTextArea);
 
-        serachByTagBahavior = new SerachByTagBahavior(valuesListView, atributeComboBox);
+        serachByTagBahavior = new SearchByTagBahavior(valuesListView, atributeComboBox);
     }
 
     private void initListeners() {
-//        operationComboBox.valueProperty().addListener(new ChangeListener<OperationsType>() {
-//            @Override
-//            public void changed(ObservableValue<? extends OperationsType> observable, OperationsType oldValue, OperationsType newValue) {
-//                if (workDirectory == null) {
-//                    logger.info("Укажите рабочую дирректорию!");
-//                }
+        operationComboBox.valueProperty().addListener(new ChangeListener<OperationsType>() {
+            @Override
+            public void changed(ObservableValue<? extends OperationsType> observable, OperationsType oldValue, OperationsType newValue) {
+                if (operationComboBox.getValue() == OperationsType.DECOMPOSE_ALL_IN_TXT) {
+                    serachByTagBahavior.setVisible(false);
+                } else {
+                    serachByTagBahavior.setVisible(true);
+                }
 //                XMLUtils.getAllAtributeAndValues(workDirectory, progressBar, serachByTagBahavior, startButton);
-//            }
-//        });
+            }
+        });
     }
 
     private void logicStartButton() {
@@ -150,6 +150,14 @@ public class MainFXMLController implements Initializable {
                 return;
             }
             XMLUtils.createTXTFromXMl(map, saveDirectory.getAbsolutePath(), progressBar, startButton);
+        }
+        if (operationComboBox.getValue() == OperationsType.DECOMPOSE_ALL_IN_TXT) {
+            if (saveDirectory == null) {
+                logger.info("Укажите дирректорию для сохранения!");
+                return;
+            }
+            XMLUtils.createOneTXTFromAllXMl(workDirectory, saveDirectory.getAbsolutePath(), progressBar, startButton);
+
         }
 
     }

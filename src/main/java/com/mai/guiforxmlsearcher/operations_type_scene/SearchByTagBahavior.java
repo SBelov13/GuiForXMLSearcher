@@ -21,12 +21,12 @@ import javafx.scene.control.ListView;
  *
  * @author Sergey
  */
-public class SerachByTagBahavior {
+public class SearchByTagBahavior implements Bahavior {
 
     private final ListView valuesListView;
     private final ComboBox tagComboBox;
 
-    public SerachByTagBahavior(ListView valuesListView, ComboBox atributeComboBox) {
+    public SearchByTagBahavior(ListView valuesListView, ComboBox atributeComboBox) {
         this.valuesListView = valuesListView;
         this.tagComboBox = atributeComboBox;
         initListener();
@@ -81,6 +81,7 @@ public class SerachByTagBahavior {
         });
     }
 
+    @Override
     public void setVisible(boolean value) {
         tagComboBox.setVisible(value);
         valuesListView.setVisible(value);
