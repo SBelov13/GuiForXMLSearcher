@@ -4,7 +4,7 @@
 
     <groupId>com.mai</groupId>
     <artifactId>GuiForXMLSearcher</artifactId>
-    <version>0.25</version>
+    <version>0.9</version>
     <packaging>jar</packaging>
 
     <name>GuiForXMLSearcher</name>

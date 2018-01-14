@@ -8,7 +8,8 @@ package com.mai.guiforxmlsearcher.utils.task;
 import static com.mai.guiforxmlsearcher.utils.XMLUtils.TEXT_ATR;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import javafx.concurrent.Task;
 import javax.xml.parsers.DocumentBuilder;
@@ -43,7 +44,7 @@ public class WriteTask extends Task<Boolean> {
         long count = 0;
         File txtFile = new File(destFolder + "\\dictionary.txt");
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(txtFile));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(txtFile), "UTF-8"));
             for (File file : files) {
                 String text = null;
                 DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
